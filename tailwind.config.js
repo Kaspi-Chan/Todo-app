@@ -31,6 +31,9 @@ export default {
       },
     },
     extend: {
+      backgroundColor: {
+        'inherit': 'inherit',
+      },
       backgroundImage: {
         "desktop-dark": "url('./bg-desktop-dark.jpg')",
         "desktop-light": "url('./bg-desktop-light.jpg')",
