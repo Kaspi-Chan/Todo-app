@@ -1,14 +1,16 @@
 import React from "react";
 import { useTheme } from "./ThemeContext";
+import moonIcon from "../../public/icon-moon.svg";
+import sunIcon from "../../public/icon-sun.svg";
 
 const ThemeSwitchBtn = () => {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
-  return <button onClick={toggleTheme}>Switch to Mode</button>;
+  return <img onClick={toggleTheme} src={theme === "light" ? moonIcon : sunIcon} />;
 };
 
 export default ThemeSwitchBtn;

@@ -14,5 +14,5 @@ export const ThemeProvider = ({ children }) => {
     root.classList.add(theme);
   }, [theme]);
 
-  return <ThemeContext.Provider value={{ setTheme }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
 };
