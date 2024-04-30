@@ -3,9 +3,10 @@ import ThemeSwitchBtn from "./components/ThemeSwitchBtn";
 
 function App() {
   return (
-    <div>
-      <ThemeSwitchBtn />
-      <div className="size-8 bg-slate-500 dark:bg-black"></div>
+    <div className="w-full h-screen relative">
+      <div className="bg-mobile-light dark:bg-mobile-dark lg:bg-desktop-light dark:lg:bg-desktop-dark w-full h-1/3 absolute top-0 left-0 bg-cover"></div>
+      <div></div>
+      <div></div>
     </div>
   );
 }
