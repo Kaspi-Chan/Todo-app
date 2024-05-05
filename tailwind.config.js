@@ -32,14 +32,14 @@ export default {
     },
     extend: {
       backgroundColor: {
-        'inherit': 'inherit',
+        inherit: "inherit",
       },
       backgroundImage: {
         "desktop-dark": "url('./bg-desktop-dark.jpg')",
         "desktop-light": "url('./bg-desktop-light.jpg')",
         "mobile-dark": "url('./bg-mobile-dark.jpg')",
         "mobile-light": "url('./bg-mobile-light.jpg')",
-        "check-background": "linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%)",
+        "check-background": "linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%))",
       },
     },
   },
