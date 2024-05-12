@@ -5,3 +5,27 @@
 html {
   font-size: 18px;
 }
+
+.check-btn{
+  position: relative;
+  background: linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  border: 0px;
+}
+.check-btn::before{
+  content: "";
+  position: absolute;
+  right: 1px;
+  bottom: 2px;
+  top: 1px;
+  left: 1px;
+  border-radius: 50%;
+  background-color: hsl(235 24% 19%);
+}
+@media (min-width: 1024px){
+  .check-btn::before{
+    right: 2px;
+    bottom: 1px;
+    top: 2px;
+    left: 1px;
+  }
+}

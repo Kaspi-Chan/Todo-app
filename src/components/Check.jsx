@@ -4,7 +4,7 @@ import checkSvgPath from "../../public/icon-check.svg";
 const Check = ({ isChecked }) => {
   return (
     <button
-      className={`rounded-full w-6 h-6 grid place-content-center border border-light-dark-grayish-blue ${
+      className={`check-btn rounded-full w-5 h-5 lg:w-6 lg:h-6 grid place-content-center border-2 border-solid border-light-dark-grayish-blue dark:border-dark-extra-dark-grayish-blue ${
         isChecked ? "bg-check-background" : "bg-inherit"
       }`}
     >

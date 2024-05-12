@@ -13,6 +13,7 @@ export default {
       sans: ["Josefin Sans", "sans-serif"],
     },
     colors: {
+      checkBorder: "linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%))",
       light: {
         "very-light-gray": "hsl(0, 0%, 98%)",
         "very-light-grayish-blue": "hsl(236, 33%, 92%)",
@@ -34,6 +35,7 @@ export default {
       backgroundColor: {
         inherit: "inherit",
       },
+      borderColor: ['hover'],
       backgroundImage: {
         "desktop-dark": "url('./bg-desktop-dark.jpg')",
         "desktop-light": "url('./bg-desktop-light.jpg')",
