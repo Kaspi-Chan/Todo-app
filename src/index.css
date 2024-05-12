@@ -7,25 +7,20 @@ html {
 }
 
 .check-btn{
-  position: relative;
-  background: linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-  border: 0px;
-}
-.check-btn::before{
-  content: "";
-  position: absolute;
-  right: 1px;
-  bottom: 2px;
-  top: 1px;
-  left: 1px;
+  border: 2px solid #E3E4F1;
   border-radius: 50%;
-  background-color: hsl(235 24% 19%);
 }
-@media (min-width: 1024px){
-  .check-btn::before{
-    right: 2px;
-    bottom: 1px;
-    top: 2px;
-    left: 1px;
-  }
+.check-btn:hover{
+  background: linear-gradient(hsl(0 0% 98%), hsl(0 0% 98%)) padding-box,
+  linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%)) border-box;
+  border-color: transparent;
+}
+/* ---- Dark Mode ---- */
+.dark .check-btn{
+  border-color: hsl(237 14% 26%);
+}
+.dark .check-btn:hover{
+  background: linear-gradient(hsl(235 24% 19%), hsl(235 24% 19%)) padding-box,
+  linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%)) border-box;
+  border-color: transparent;
 }
