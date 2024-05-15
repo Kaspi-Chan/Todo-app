@@ -28,7 +28,7 @@ export default {
         "light-grayish-blue-hover": "hsl(236, 33%, 92%)", // Hover state color
         "dark-grayish-blue": "hsl(234, 11%, 52%)",
         "very-dark-grayish-blue": "hsl(233, 14%, 35%)",
-        "extra-dark-grayish-blue": "hsl(237, 14%, 26%)",
+        "extra-dark-grayish-blue": "hsl(235, 14%, 26%)",
       },
     },
     extend: {

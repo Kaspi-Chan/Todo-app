@@ -1,6 +1,18 @@
 import React from "react";
 import ThemeSwitchBtn from "./ThemeSwitchBtn";
 import ToDoForm from "./ToDoForm";
+import ToDoList from "./ToDoList";
+
+const tasksList = [
+  {
+    completed: true,
+    text: 'Chipi Chipi Chipi Chipi Chapa'
+  },
+  {
+    completed: false,
+    text: 'Chipi Chipi Chipi Chipi Chapa'
+  }
+]
 
 const ToDoMain = () => {
   return (
@@ -10,6 +22,7 @@ const ToDoMain = () => {
         <ThemeSwitchBtn />
       </div>
       <ToDoForm />
+      <ToDoList tasksList={tasksList} />
     </main>
   );
 };

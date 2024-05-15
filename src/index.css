@@ -27,6 +27,11 @@ html {
 
 .check-btn.check-btn--checked,
 .check-btn.check-btn--checked:hover{
-  background: linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  background: linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%)) padding-box,
+  linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%)) border-box;
   border-color: transparent;
+}
+
+.hover-reveal:hover .button-hidden {
+  display: block; /* Show the button on hover */
 }
