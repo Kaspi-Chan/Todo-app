@@ -24,3 +24,9 @@ html {
   linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%)) border-box;
   border-color: transparent;
 }
+
+.check-btn.check-btn--checked,
+.check-btn.check-btn--checked:hover{
+  background: linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  border-color: transparent;
+}
