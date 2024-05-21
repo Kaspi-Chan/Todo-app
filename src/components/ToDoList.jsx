@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Check from "./Check";
-import CloseButton from "./CloseButton";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import ListButtonMenu from "./ListButtonMenu";
+import ListItem from "./ListItem";
 
 const ToDoList = ({ tasksList, setTasksList }) => {
 	const [filteredList, setFilteredList] = useState(tasksList);
@@ -20,27 +20,43 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 		);
 	};
 
+	const onDragEnd = (result) => {
+		const { destination, source } = result;
+
+		if (!destination) return;
+		if (destination.index === source.index) return;
+
+		const newItems = Array.from(tasksList);
+		const [reorderedItem] = newItems.splice(source.index, 1);
+		newItems.splice(destination.index, 0, reorderedItem);
+		setTasksList(newItems);
+		setFilteredList(newItems);
+	};
+
 	return (
-		<ul className="bg-light-very-light-gray dark:bg-dark-very-dark-desaturated-blue rounded-md shadow-md relative">
-			{filteredList.map((task) => (
-				<li
-					key={task.id}
-					className="px-6 w-full flex items-center gap-3 lg:gap-6 hover-reveal bg-inherit first:rounded-tl-md first:rounded-tr-md last:rounded-bl-md last:rounded-br-md border-b border-light-very-light-grayish-blue dark:border-dark-extra-dark-grayish-blue last:border-none cursor-pointer">
-					<Check isChecked={task.completed} onClick={() => markAsCompleted(task)} />
-					<p
-						className={`flex-1 bg-inherit py-3.5 lg:py-5 text-sm 
-            ${
-							task.completed
-								? "line-through text-light-light-grayish-blue dark:text-dark-very-dark-grayish-blue"
-								: "text-light-very-dark-grayish-blue dark:text-dark-light-grayish-blue"
-						}`}>
-						{task.text}
-					</p>
-					<CloseButton onClick={() => removeTask(task.id)} />
-				</li>
-			))}
-			<ListButtonMenu tasksList={tasksList} setTasksList={setTasksList} filteredList={filteredList} setFilteredList={setFilteredList} />
-		</ul>
+		<DragDropContext onDragEnd={onDragEnd}>
+			<Droppable droppableId="ToDoTasks">
+				{(provided) => {
+					return (
+						<ul
+							{...provided.droppableProps}
+							ref={provided.innerRef}
+							className="bg-light-very-light-gray dark:bg-dark-very-dark-desaturated-blue rounded-md shadow-md relative">
+							{filteredList.map((task, index) => (
+								<ListItem key={task.id} task={task} index={index} markAsCompleted={markAsCompleted} removeTask={removeTask} />
+							))}
+							{provided.placeholder}
+							<ListButtonMenu
+								tasksList={tasksList}
+								setTasksList={setTasksList}
+								filteredList={filteredList}
+								setFilteredList={setFilteredList}
+							/>
+						</ul>
+					);
+				}}
+			</Droppable>
+		</DragDropContext>
 	);
 };
 
