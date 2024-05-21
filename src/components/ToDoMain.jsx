@@ -26,7 +26,7 @@ const ToDoMain = () => {
         <ThemeSwitchBtn />
       </div>
       <ToDoForm onSubmit={addTask} />
-      <ToDoList tasksList={tasksList} setTaskList={setTasksList} />
+      <ToDoList tasksList={tasksList} setTasksList={setTasksList} />
     </main>
   );
 };
