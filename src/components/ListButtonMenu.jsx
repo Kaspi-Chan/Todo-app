@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const buttonClasses =
-	"text-light-dark-grayish-blue dark:text-dark-dark-grayish-blue  hover:text-light-very-dark-grayish-blue dark:hover:text-dark-light-grayish-blue-hover";
+	"text-light-dark-grayish-blue dark:text-dark-dark-grayish-blue hover:text-light-very-dark-grayish-blue dark:hover:text-dark-light-grayish-blue-hover";
 
 const ListButtonMenu = ({ tasksList, setTasksList, filteredList, setFilteredList }) => {
 	const [tasksCount, setTaskCount] = useState(tasksList.length);

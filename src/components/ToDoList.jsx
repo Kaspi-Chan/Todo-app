@@ -34,29 +34,37 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 	};
 
 	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<Droppable droppableId="ToDoTasks">
-				{(provided) => {
-					return (
-						<ul
-							{...provided.droppableProps}
-							ref={provided.innerRef}
-							className="bg-light-very-light-gray dark:bg-dark-very-dark-desaturated-blue rounded-md shadow-md relative">
-							{filteredList.map((task, index) => (
-								<ListItem key={task.id} task={task} index={index} markAsCompleted={markAsCompleted} removeTask={removeTask} />
-							))}
-							{provided.placeholder}
-							<ListButtonMenu
-								tasksList={tasksList}
-								setTasksList={setTasksList}
-								filteredList={filteredList}
-								setFilteredList={setFilteredList}
-							/>
-						</ul>
-					);
-				}}
-			</Droppable>
-		</DragDropContext>
+		<>
+			<DragDropContext onDragEnd={onDragEnd}>
+				<Droppable droppableId="ToDoTasks">
+					{(provided) => {
+						return (
+							<ul
+								{...provided.droppableProps}
+								ref={provided.innerRef}
+								className="bg-light-very-light-gray dark:bg-dark-very-dark-desaturated-blue rounded-md shadow-md relative">
+								{filteredList.map((task, index) => (
+									<ListItem key={task.id} task={task} index={index} markAsCompleted={markAsCompleted} removeTask={removeTask} />
+								))}
+								{provided.placeholder}
+								<ListButtonMenu
+									tasksList={tasksList}
+									setTasksList={setTasksList}
+									filteredList={filteredList}
+									setFilteredList={setFilteredList}
+								/>
+							</ul>
+						);
+					}}
+				</Droppable>
+			</DragDropContext>
+			<p
+				className={`${
+					tasksList.length === 0 ? "hidden" : ""
+				} text-[14px] text-light-dark-grayish-blue dark:text-dark-dark-grayish-blue text-center mt-24 lg:mt-10`}>
+				Drag and drop to reorder list
+			</p>
+		</>
 	);
 };
 
