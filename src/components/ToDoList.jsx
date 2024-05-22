@@ -2,22 +2,32 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import ListButtonMenu from "./ListButtonMenu";
 import ListItem from "./ListItem";
+import { db } from "../firebase";
+import { collection, deleteDoc, doc, onSnapshot, query, updateDoc } from "firebase/firestore";
 
 const ToDoList = ({ tasksList, setTasksList }) => {
 	const [filteredList, setFilteredList] = useState(tasksList);
 
 	useEffect(() => {
-		setFilteredList(tasksList);
+		const q = query(collection(db, "todos"));
+		const unsubscribe = onSnapshot(q, (querySnapshot) => {
+			let todoArr = [];
+			querySnapshot.forEach((doc) => {
+				todoArr.push({ ...doc.data(), id: doc.id });
+			});
+			setFilteredList(todoArr);
+		});
+		return () => unsubscribe();
 	}, [tasksList]);
 
-	const removeTask = (id) => {
-		setTasksList((prevTasksList) => prevTasksList.filter((task) => task.id !== id));
+	const removeTask = async (id) => {
+		await deleteDoc(doc(db, "todos", id));
 	};
 
-	const markAsCompleted = (markedTask) => {
-		setTasksList((prevTasksList) =>
-			prevTasksList.map((task) => (task.id === markedTask.id ? { ...task, completed: !markedTask.completed } : task))
-		);
+	const markAsCompleted = async (markedTask) => {
+		await updateDoc(doc(db, "todos", markedTask.id), {
+			completed: !markedTask.completed,
+		});
 	};
 
 	const onDragEnd = (result) => {
