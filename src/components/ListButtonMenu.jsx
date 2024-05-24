@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const buttonClasses =
 	"text-light-dark-grayish-blue dark:text-dark-dark-grayish-blue hover:text-light-very-dark-grayish-blue dark:hover:text-dark-light-grayish-blue-hover";
 
-const ListButtonMenu = ({ tasksList, setTasksList, filteredList, setFilteredList }) => {
+const ListButtonMenu = ({ tasksList, filteredList, setFilteredList, removeTask, setCurrentFilter }) => {
 	const [tasksCount, setTaskCount] = useState(tasksList.length);
 	const [clickedBtn, setClickedBtn] = useState("All");
 
@@ -27,15 +27,22 @@ const ListButtonMenu = ({ tasksList, setTasksList, filteredList, setFilteredList
 
 	const showActive = () => {
 		setFilteredList(tasksList.filter((task) => task.completed === false));
+		setCurrentFilter("active");
 	};
 	const showCompleted = () => {
 		setFilteredList(tasksList.filter((task) => task.completed === true));
+		setCurrentFilter("completed");
 	};
 	const showAll = () => {
 		setFilteredList(tasksList);
+		setCurrentFilter("all");
 	};
-	const clearCompleted = () => {
-		setTasksList((prevTasksList) => prevTasksList.filter((task) => task.completed === false));
+	const clearCompleted = async () => {
+		tasksList.forEach((task) => {
+			if (task.completed) {
+				removeTask(task.id).catch((error) => console.error(`Failed to remove task: '${task.text}'`, error));
+			}
+		});
 	};
 
 	return (

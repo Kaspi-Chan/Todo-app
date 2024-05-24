@@ -3,11 +3,10 @@ import ThemeSwitchBtn from "./ThemeSwitchBtn";
 import ToDoForm from "./ToDoForm";
 import ToDoList from "./ToDoList";
 import { db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 
 const ToDoMain = () => {
 	const [tasksList, setTasksList] = useState([]);
-	const [nextId, setNextId] = useState(1);
 
 	const createTask = async (inputValue) => {
 		if (inputValue === "") {
@@ -15,9 +14,18 @@ const ToDoMain = () => {
 			return;
 		}
 
+		const querySnapshot = await getDocs(query(collection(db, "todos"), orderBy("order", "desc"), limit(1)));
+		let highestOrder = 0;
+
+		// If there are existing tasks, set the highest order to the highest current order plus one.
+		querySnapshot.forEach((doc) => {
+			highestOrder = doc.data().order + 1;
+		});
+
 		await addDoc(collection(db, "todos"), {
 			text: inputValue,
 			completed: false,
+			order: highestOrder,
 		});
 	};
 

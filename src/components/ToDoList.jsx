@@ -3,21 +3,26 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import ListButtonMenu from "./ListButtonMenu";
 import ListItem from "./ListItem";
 import { db } from "../firebase";
-import { collection, deleteDoc, doc, onSnapshot, query, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
 
 const ToDoList = ({ tasksList, setTasksList }) => {
 	const [filteredList, setFilteredList] = useState(tasksList);
+	const [currentFilter, setCurrentFilter] = useState("all");
 
 	useEffect(() => {
-		const q = query(collection(db, "todos"));
+		const q = query(collection(db, "todos"), orderBy("order"));
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
 			let todoArr = [];
 			querySnapshot.forEach((doc) => {
 				todoArr.push({ ...doc.data(), id: doc.id });
 			});
-			setFilteredList(todoArr);
+			setTasksList(todoArr);
 		});
 		return () => unsubscribe();
+	}, []);
+
+	useEffect(() => {
+		setFilteredList(tasksList);
 	}, [tasksList]);
 
 	const removeTask = async (id) => {
@@ -30,17 +35,45 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 		});
 	};
 
-	const onDragEnd = (result) => {
+	const onDragEnd = async (result) => {
 		const { destination, source } = result;
 
 		if (!destination) return;
 		if (destination.index === source.index) return;
 
 		const newItems = Array.from(tasksList);
-		const [reorderedItem] = newItems.splice(source.index, 1);
-		newItems.splice(destination.index, 0, reorderedItem);
-		setTasksList(newItems);
-		setFilteredList(newItems);
+
+		const startIndex = tasksList.findIndex((item) => item.id === filteredList[source.index].id);
+		const endIndex = tasksList.findIndex((item) => item.id === filteredList[destination.index].id);
+
+		const [reorderedItem] = newItems.splice(startIndex, 1);
+		newItems.splice(endIndex, 0, reorderedItem);
+		// setTasksList(newItems);
+		updateFilteredAndDatabase(newItems);
+	};
+
+	const updateFilteredAndDatabase = async (newItems) => {
+		// Check the current filter setting and apply it
+		// Update database
+		const batch = writeBatch(db);
+		newItems.forEach((task, index) => {
+			const taskRef = doc(db, "todos", task.id);
+			batch.update(taskRef, { order: index });
+		});
+		await batch.commit();
+
+		switch (currentFilter) {
+			case "completed":
+				setFilteredList(newItems.filter((item) => item.completed === true));
+				break;
+			case "active":
+				setFilteredList(newItems.filter((item) => !item.completed === false));
+				break;
+			case "all":
+			default:
+				setFilteredList(newItems);
+				break;
+		}
 	};
 
 	return (
@@ -59,9 +92,10 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 								{provided.placeholder}
 								<ListButtonMenu
 									tasksList={tasksList}
-									setTasksList={setTasksList}
 									filteredList={filteredList}
 									setFilteredList={setFilteredList}
+									removeTask={removeTask}
+									setCurrentFilter={setCurrentFilter}
 								/>
 							</ul>
 						);
