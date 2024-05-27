@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-const buttonClasses =
-	"text-light-dark-grayish-blue dark:text-dark-dark-grayish-blue hover:text-light-very-dark-grayish-blue dark:hover:text-dark-light-grayish-blue-hover";
+const buttonClasses = {
+	base: "text-light-dark-grayish-blue dark:text-dark-dark-grayish-blue hover:text-light-very-dark-grayish-blue dark:hover:text-dark-light-grayish-blue-hover",
+	active: "text-[#3A7CFD]",
+};
 
 const ListButtonMenu = ({ tasksList, filteredList, setFilteredList, removeTask, setCurrentFilter }) => {
 	const [tasksCount, setTaskCount] = useState(tasksList.length);
@@ -12,14 +14,13 @@ const ListButtonMenu = ({ tasksList, filteredList, setFilteredList, removeTask, 
 	}, [filteredList]);
 
 	const ListButton = ({ id, onClick, children }) => {
-		const activeButtonClasses = clickedBtn === id ? "text-[#3A7CFD] dark:text-[#3A7CFD]" : "";
 		return (
 			<button
 				onClick={() => {
 					onClick();
 					setClickedBtn(id);
 				}}
-				className={`${buttonClasses} ${activeButtonClasses}`}>
+				className={`${buttonClasses.base} ${clickedBtn === id ? buttonClasses.active : ""}`}>
 				{children}
 			</button>
 		);
@@ -59,7 +60,7 @@ const ListButtonMenu = ({ tasksList, filteredList, setFilteredList, removeTask, 
 					Completed
 				</ListButton>
 			</div>
-			<button onClick={clearCompleted} className={buttonClasses}>
+			<button onClick={clearCompleted} className={buttonClasses.base}>
 				Clear Completed
 			</button>
 		</div>
