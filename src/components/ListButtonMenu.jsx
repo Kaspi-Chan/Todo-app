@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ListButton from "./ListButton";
 
 const buttonClasses = {
 	base: "text-light-dark-grayish-blue dark:text-dark-dark-grayish-blue hover:text-light-very-dark-grayish-blue dark:hover:text-dark-light-grayish-blue-hover",
@@ -13,30 +14,20 @@ const ListButtonMenu = ({ tasksList, filteredList, setFilteredList, removeTask, 
 		setTaskCount(filteredList.length);
 	}, [filteredList]);
 
-	const ListButton = ({ id, onClick, children }) => {
-		return (
-			<button
-				onClick={() => {
-					onClick();
-					setClickedBtn(id);
-				}}
-				className={`${buttonClasses.base} ${clickedBtn === id ? buttonClasses.active : ""}`}>
-				{children}
-			</button>
-		);
-	};
-
-	const showActive = () => {
+	const showActive = (id) => {
 		setFilteredList(tasksList.filter((task) => task.completed === false));
-		setCurrentFilter("active");
+		setCurrentFilter(id);
+		setClickedBtn(id);
 	};
-	const showCompleted = () => {
+	const showCompleted = (id) => {
 		setFilteredList(tasksList.filter((task) => task.completed === true));
-		setCurrentFilter("completed");
+		setCurrentFilter(id);
+		setClickedBtn(id);
 	};
-	const showAll = () => {
+	const showAll = (id) => {
 		setFilteredList(tasksList);
-		setCurrentFilter("all");
+		setCurrentFilter(id);
+		setClickedBtn(id);
 	};
 	const clearCompleted = async () => {
 		tasksList.forEach((task) => {
@@ -50,13 +41,13 @@ const ListButtonMenu = ({ tasksList, filteredList, setFilteredList, removeTask, 
 		<div className={`px-6 py-4 w-full flex justify-between items-center text-[14px] ${tasksList.length === 0 ? "hidden" : ""}`}>
 			<span className="text-light-dark-grayish-blue dark:text-dark-dark-grayish-blue">{tasksCount} items left</span>
 			<div className="w-full flex justify-center gap-4 absolute left-0 -bottom-16 px-6 py-4 font-bold bg-light-very-light-gray dark:bg-dark-very-dark-desaturated-blue rounded-md shadow-md lg:p-0 lg:static lg:w-auto lg:rounded-none lg:shadow-none">
-				<ListButton id="All" onClick={showAll}>
+				<ListButton id="all" onClick={() => showAll("all")} buttonClasses={buttonClasses} clickedBtn={clickedBtn}>
 					All
 				</ListButton>
-				<ListButton id="Active" onClick={showActive}>
+				<ListButton id="active" onClick={() => showActive("active")} buttonClasses={buttonClasses} clickedBtn={clickedBtn}>
 					Active
 				</ListButton>
-				<ListButton id="Completed" onClick={showCompleted}>
+				<ListButton id="completed" onClick={() => showCompleted("completed")} buttonClasses={buttonClasses} clickedBtn={clickedBtn}>
 					Completed
 				</ListButton>
 			</div>
