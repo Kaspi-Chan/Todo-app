@@ -7,7 +7,7 @@ import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, writ
 
 const ToDoList = ({ tasksList, setTasksList }) => {
 	const [filteredList, setFilteredList] = useState(tasksList);
-	const [currentFilter, setCurrentFilter] = useState("all");
+  const [currentFilter, setCurrentFilter] = useState();
 
 	useEffect(() => {
 		const q = query(collection(db, "todos"), orderBy("order"));
@@ -22,7 +22,12 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 	}, []);
 
 	useEffect(() => {
-		setFilteredList(tasksList);
+    if(currentFilter){
+      filterDataAfterUpdate(tasksList)
+    }
+    else{
+      setFilteredList(tasksList);
+    }
 	}, [tasksList]);
 
 	const removeTask = async (id) => {
@@ -48,33 +53,37 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 
 		const [reorderedItem] = newItems.splice(startIndex, 1);
 		newItems.splice(endIndex, 0, reorderedItem);
-		// setTasksList(newItems);
-		updateFilteredAndDatabase(newItems);
+		setFilteredList(newItems);
+
+    updateFilteredDatabase(newItems)
 	};
 
-	const updateFilteredAndDatabase = async (newItems) => {
-		// Check the current filter setting and apply it
-		// Update database
+	const updateFilteredDatabase = async (newItems) => {
 		const batch = writeBatch(db);
 		newItems.forEach((task, index) => {
 			const taskRef = doc(db, "todos", task.id);
 			batch.update(taskRef, { order: index });
 		});
 		await batch.commit();
+	};
 
-		switch (currentFilter) {
-			case "completed":
+  const filterDataAfterUpdate = (newItems) => {
+    switch (currentFilter) {
+			case "Completed":
 				setFilteredList(newItems.filter((item) => item.completed === true));
+        console.log("Completed")
 				break;
-			case "active":
-				setFilteredList(newItems.filter((item) => !item.completed === false));
+			case "Active":
+				setFilteredList(newItems.filter((item) => item.completed === false));
+        console.log("Active")
 				break;
-			case "all":
+			case "All":
 			default:
 				setFilteredList(newItems);
+        console.log("All")
 				break;
 		}
-	};
+  }
 
 	return (
 		<>
@@ -95,7 +104,7 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 									filteredList={filteredList}
 									setFilteredList={setFilteredList}
 									removeTask={removeTask}
-									setCurrentFilter={setCurrentFilter}
+                  setCurrentFilter={setCurrentFilter}
 								/>
 							</ul>
 						);

@@ -27,15 +27,15 @@ const ListButtonMenu = ({ tasksList, filteredList, setFilteredList, removeTask, 
 
 	const showActive = () => {
 		setFilteredList(tasksList.filter((task) => task.completed === false));
-		setCurrentFilter("active");
+		setCurrentFilter("Active");
 	};
 	const showCompleted = () => {
 		setFilteredList(tasksList.filter((task) => task.completed === true));
-		setCurrentFilter("completed");
+		setCurrentFilter("Completed");
 	};
 	const showAll = () => {
 		setFilteredList(tasksList);
-		setCurrentFilter("all");
+		setCurrentFilter("All");
 	};
 	const clearCompleted = async () => {
 		tasksList.forEach((task) => {

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ThemeSwitchBtn from "./ThemeSwitchBtn";
 import ToDoForm from "./ToDoForm";
 import ToDoList from "./ToDoList";
 import { db } from "../firebase";
-import { addDoc, collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, getDocs, limit, onSnapshot, orderBy, query } from "firebase/firestore";
 
 const ToDoMain = () => {
 	const [tasksList, setTasksList] = useState([]);
@@ -29,6 +29,7 @@ const ToDoMain = () => {
 		});
 	};
 
+  
 	return (
 		<main className="mx-auto max-w-[320px] sm:max-w-[420px] lg:max-w-[540px] relative z-10 pt-14">
 			<div className="flex justify-between items-center mb-10">
