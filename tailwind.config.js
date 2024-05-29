@@ -15,6 +15,7 @@ export default {
     
     extend: {
       colors: {
+        buttonActive: '#3A7CFD !important',
         checkBorder: "linear-gradient(135deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%))",
         light: {
           "very-light-gray": "hsl(0, 0%, 98%)",
