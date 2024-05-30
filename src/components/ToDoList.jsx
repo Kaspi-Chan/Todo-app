@@ -6,9 +6,9 @@ import { db } from "../firebase";
 import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
 
 const ToDoList = ({ tasksList, setTasksList }) => {
-  const [currentFilter, setCurrentFilter] = useState('all'); 
+	const [currentFilter, setCurrentFilter] = useState("all");
 
-  useEffect(() => {
+	useEffect(() => {
 		const q = query(collection(db, "todos"), orderBy("order"));
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
 			let todoArr = [];
@@ -18,22 +18,22 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 			setTasksList(todoArr);
 		});
 		return () => unsubscribe();
-	}, []); 
+	}, []);
 
-  const filteredTasks = useMemo(() => {
-    switch (currentFilter) {
-      case 'completed':
-        return tasksList.filter(task => task.completed);
-      case 'active':
-        return tasksList.filter(task => !task.completed);
-      default:
-        return tasksList;
-    }
-  }, [tasksList, currentFilter]);
+	const filteredTasks = useMemo(() => {
+		switch (currentFilter) {
+			case "completed":
+				return tasksList.filter((task) => task.completed);
+			case "active":
+				return tasksList.filter((task) => !task.completed);
+			default:
+				return tasksList;
+		}
+	}, [tasksList, currentFilter]);
 
-  const handleFilterChange = (filter) => {
-    setCurrentFilter(filter);
-  };
+	const handleFilterChange = (filter) => {
+		setCurrentFilter(filter);
+	};
 
 	const removeTask = async (id) => {
 		await deleteDoc(doc(db, "todos", id));
@@ -58,9 +58,9 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 
 		const [reorderedItem] = newItems.splice(startIndex, 1);
 		newItems.splice(endIndex, 0, reorderedItem);
-    
+
 		setTasksList(newItems);
-    updateDatabase(newItems)
+		updateDatabase(newItems);
 	};
 
 	const updateDatabase = async (newItems) => {
@@ -89,9 +89,9 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 								<ListButtonMenu
 									tasksList={tasksList}
 									removeTask={removeTask}
-                  currentFilter={currentFilter}
-                  filteredTasks={filteredTasks}
-                  handleFilterChange={handleFilterChange}
+									currentFilter={currentFilter}
+									filteredTasks={filteredTasks}
+									handleFilterChange={handleFilterChange}
 								/>
 							</ul>
 						);
