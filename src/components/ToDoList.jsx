@@ -48,8 +48,7 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 	const onDragEnd = async (result) => {
 		const { destination, source } = result;
 
-		if (!destination) return;
-		if (destination.index === source.index) return;
+		if (!destination || destination.index === source.index) return;
 
 		const newItems = Array.from(tasksList);
 

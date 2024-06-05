@@ -3,13 +3,13 @@ import ThemeSwitchBtn from "./ThemeSwitchBtn";
 import ToDoForm from "./ToDoForm";
 import ToDoList from "./ToDoList";
 import { db } from "../firebase";
-import { addDoc, collection, getDocs, limit, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 
 const ToDoMain = () => {
 	const [tasksList, setTasksList] = useState([]);
 
 	const createTask = async (inputValue) => {
-		if (inputValue === "") {
+		if (inputValue.trim() === "") {
 			alert("Please enter a valid task!");
 			return;
 		}
