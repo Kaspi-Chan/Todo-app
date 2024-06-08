@@ -5,7 +5,8 @@ const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("light"); // default theme
+  const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+  const [theme, setTheme] = useState(prefersDarkMode.matches ? 'dark' : 'light'); // default theme
 
   // Effect to apply class to HTML element
   useEffect(() => {
