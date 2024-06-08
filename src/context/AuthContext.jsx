@@ -7,7 +7,7 @@ const AuthContext = createContext();
 export const UserAuth = () => useContext(AuthContext)
 
 export const AuthContextProvider = ({children}) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
@@ -16,12 +16,15 @@ export const AuthContextProvider = ({children}) => {
 
   const logOut = () => {
     signOut(auth);
+    setUser(null)
+    setTimeout(() => {
+      window.alert('Logged out successfully!')
+    }, 500)
   }
 
   useEffect(() => {
     const unsubscibe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
-      console.log(currentUser)
     })
     return () => unsubscibe();
   }, [])

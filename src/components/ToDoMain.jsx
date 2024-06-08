@@ -3,14 +3,20 @@ import ThemeSwitchBtn from "./ThemeSwitchBtn";
 import ToDoForm from "./ToDoForm";
 import ToDoList from "./ToDoList";
 import { db } from "../firebase";
-import { addDoc, collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { UserAuth } from "../context/AuthContext";
 import Profile from "./Profile";
 
 const ToDoMain = () => {
 	const [tasksList, setTasksList] = useState([]);
+  const {user} = UserAuth()
 
 	const createTask = async (inputValue) => {
+    if(!user){
+      window.alert('Please log in to create tasks!')
+      return
+    };
+
 		if (inputValue.trim() === "") {
 			alert("Please enter a valid task!");
 			return;
@@ -21,7 +27,7 @@ const ToDoMain = () => {
 			return;
 		}
 
-		const querySnapshot = await getDocs(query(collection(db, "todos"), orderBy("order", "desc"), limit(1)));
+		const querySnapshot = await getDocs(query(collection(db, "todos"), where('userId', '==', user.uid), orderBy("order", "desc"), limit(1)));
 		let highestOrder = 0;
 
 		// If there are existing tasks, set the highest order to the highest current order plus one.
@@ -30,6 +36,7 @@ const ToDoMain = () => {
 		});
 
 		await addDoc(collection(db, "todos"), {
+      userId: user.uid,
 			text: inputValue,
 			completed: false,
 			order: highestOrder,

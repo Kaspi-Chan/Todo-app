@@ -3,13 +3,20 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import ListButtonMenu from "./ListButtonMenu";
 import ListItem from "./ListItem";
 import { db } from "../firebase";
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, writeBatch } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, writeBatch, where } from "firebase/firestore";
+import { UserAuth } from "../context/AuthContext";
 
 const ToDoList = ({ tasksList, setTasksList }) => {
 	const [currentFilter, setCurrentFilter] = useState("all");
+  const {user} = UserAuth()
 
 	useEffect(() => {
-		const q = query(collection(db, "todos"), orderBy("order"));
+    if(!user) {
+      setTasksList([]);
+      return
+    }
+
+		const q = query(collection(db, "todos"), where('userId', '==', user.uid), orderBy("order"));
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
 			let todoArr = [];
 			querySnapshot.forEach((doc) => {
@@ -18,7 +25,7 @@ const ToDoList = ({ tasksList, setTasksList }) => {
 			setTasksList(todoArr);
 		});
 		return () => unsubscribe();
-	}, []);
+	}, [user]);
 
 	const filteredTasks = useMemo(() => {
 		switch (currentFilter) {
