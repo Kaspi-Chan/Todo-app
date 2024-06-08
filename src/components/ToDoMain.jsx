@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ThemeSwitchBtn from "./ThemeSwitchBtn";
 import ToDoForm from "./ToDoForm";
 import ToDoList from "./ToDoList";
@@ -22,7 +22,7 @@ const ToDoMain = () => {
 			return;
 		}
 
-		if (tasksList.length === 10) {
+		if (tasksList.length === 20) {
 			alert("You have reached the maximum number of items allowed.");
 			return;
 		}
