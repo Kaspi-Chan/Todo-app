@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "./ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import moonIcon from "../../public/icon-moon.svg";
 import sunIcon from "../../public/icon-sun.svg";
 

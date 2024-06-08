@@ -2,12 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { ThemeProvider } from "./components/ThemeContext.jsx";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { AuthContextProvider } from "./context/AuthContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<ThemeProvider>
-			<App />
+      <AuthContextProvider>
+			  <App />
+      </AuthContextProvider>
 		</ThemeProvider>
 	</React.StrictMode>
 );
